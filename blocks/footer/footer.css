@@ -19,3 +19,15 @@ footer .footer p {
     padding: 56px 32px 40px;
   }
 }
+
+footer .footer a:any-link {
+  color: #e6e9eb;
+}
+
+footer .footer a:hover {
+  color: #fff;
+}
+
+footer .footer .legal {
+  color: #b9bfc4;
+}

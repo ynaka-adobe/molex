@@ -148,6 +148,25 @@ function decorateButtons(main) {
 }
 
 /**
+ * Gives icon-only links an accessible name derived from their icon.
+ * DA strips authored aria-label attributes, so derive it from the icon class.
+ * @param {Element} main The container element
+ */
+function labelIconLinks(main) {
+  main.querySelectorAll('a:not([aria-label])').forEach((a) => {
+    if (a.textContent.trim()) return;
+    const icon = a.querySelector('span[class*="icon-"]');
+    if (!icon) return;
+    const name = [...icon.classList].find((c) => c.startsWith('icon-'));
+    if (!name) return;
+    a.setAttribute(
+      'aria-label',
+      name.slice(5).replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase()),
+    );
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -158,6 +177,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  labelIconLinks(main);
 }
 
 /**

@@ -136,12 +136,13 @@
 }
 
 .common-searches .common-searches-dot {
-  width: 10px;
-  height: 10px;
-  padding: 0;
+  width: 24px;
+  height: 24px;
+  padding: 7px;
   border: none;
   border-radius: 50%;
   background: #cfd3d6;
+  background-clip: content-box;
   cursor: pointer;
   transition: background 0.2s ease;
 }
