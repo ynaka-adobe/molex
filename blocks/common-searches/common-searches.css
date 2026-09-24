@@ -1,0 +1,178 @@
+.common-searches {
+  --cs-title-color: #242b30;
+  --cs-heading-color: #242b30;
+  --cs-link-color: rgb(70 77 84);
+  --cs-card-width: 260px;
+  --cs-gap: 20px;
+
+  display: block;
+  padding: 20px 0;
+}
+
+/* Intro panel (heading + arrows) */
+.common-searches .common-searches-intro {
+  margin-bottom: 16px;
+}
+
+.common-searches .common-searches-intro h2 {
+  margin: 0 0 16px;
+  font-weight: 300;
+  font-size: var(--heading-font-size-xl);
+  color: var(--cs-heading-color);
+  line-height: 1.1;
+}
+
+.common-searches .common-searches-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.common-searches .common-searches-arrow {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: #eee;
+  color: #242b30;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.common-searches .common-searches-arrow:hover {
+  background: #ddd;
+}
+
+/* Track of cards */
+.common-searches .common-searches-track {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.common-searches .common-searches-track::-webkit-scrollbar {
+  display: none;
+}
+
+.common-searches .common-searches-slides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--cs-gap);
+}
+
+.common-searches .common-searches-card {
+  flex: 0 0 var(--cs-card-width);
+  max-width: var(--cs-card-width);
+}
+
+.common-searches .common-searches-card-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.common-searches .common-searches-card-link:hover {
+  text-decoration: none;
+}
+
+.common-searches .common-searches-card-title {
+  order: 1;
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cs-title-color);
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.common-searches .common-searches-card-image {
+  order: 2;
+  width: 100%;
+  line-height: 0;
+}
+
+.common-searches .common-searches-card-image img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.common-searches .common-searches-card-cta {
+  order: 3;
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--cs-link-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.common-searches .common-searches-card-link:hover .common-searches-card-cta {
+  color: var(--link-hover-color);
+}
+
+.common-searches .common-searches-card-arrow {
+  font-size: 18px;
+}
+
+/* Pagination dots */
+.common-searches .common-searches-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.common-searches .common-searches-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #cfd3d6;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.common-searches .common-searches-dot.is-active {
+  background: #6b7178;
+}
+
+/* Desktop: intro panel to the left, track to the right */
+@media (width >= 900px) {
+  .common-searches {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 32px;
+    align-items: center;
+  }
+
+  .common-searches .common-searches-intro {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 0;
+  }
+
+  .common-searches .common-searches-track {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .common-searches .common-searches-dots {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}

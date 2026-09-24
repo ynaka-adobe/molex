@@ -1,0 +1,117 @@
+.case-study {
+  --cs-text: #fff;
+  --cs-min-height: 500px;
+  --cs-max-width: 1336px;
+
+  position: relative;
+  color: var(--cs-text);
+}
+
+/* Full-bleed banner: neutralize the section wrapper max-width/padding */
+.case-study-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.case-study > div {
+  position: relative;
+  max-width: var(--cs-max-width);
+  margin: 0 auto;
+}
+
+/* Background photo fills the banner */
+.case-study .case-study-image {
+  margin: 0;
+  line-height: 0;
+}
+
+.case-study .case-study-image picture,
+.case-study .case-study-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Teal/blue tint that fades from the lower-left to improve text legibility */
+.case-study .case-study-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgb(0 130 170 / 55%) 0%,
+    rgb(0 130 170 / 25%) 45%,
+    rgb(0 0 0 / 10%) 100%
+  );
+  pointer-events: none;
+}
+
+/* Overlaid text block, anchored bottom-left */
+.case-study .case-study-content {
+  position: absolute;
+  inset: auto auto 0 0;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0;
+  padding: 24px 32px 40px;
+  color: var(--cs-text);
+}
+
+.case-study .case-study-content h2 {
+  margin: 0 0 12px;
+  color: var(--cs-text);
+  font-weight: 300;
+  font-size: var(--heading-font-size-l, 32px);
+  line-height: 1.15;
+}
+
+.case-study .case-study-content p {
+  max-width: 420px;
+  margin: 0 0 8px;
+  color: var(--cs-text);
+  font-size: var(--body-font-size-s, 16px);
+  line-height: 1.5;
+}
+
+/* CTA link: uppercase with letter-spacing and an arrow */
+.case-study .case-study-content p.button-container {
+  display: block;
+  margin-top: 20px;
+}
+
+main .case-study a.button:any-link,
+.case-study .case-study-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  color: var(--cs-text);
+  font-size: var(--body-font-size-s, 16px);
+  font-weight: 400;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+main .case-study a.button:any-link::after,
+.case-study .case-study-cta::after {
+  content: "\2192";
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+main .case-study a.button:any-link:hover,
+.case-study .case-study-cta:hover {
+  color: var(--cs-text);
+  text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  .case-study .case-study-content {
+    padding: 32px 48px 48px;
+  }
+
+  .case-study .case-study-content h2 {
+    font-size: 32px;
+  }
+}

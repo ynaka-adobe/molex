@@ -1,3 +1,5 @@
+@import url('brand.css');
+
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -12,18 +14,16 @@
 
 :root {
   /* colors */
-  --background-color: white;
-  --light-color: #f4f4f5;
-  --dark-color: #1b1b1b;
-  --text-color: #1f2327;
-  --link-color: #ee2c30;
-  --link-hover-color: #b81f24;
-  --brand-primary: #ee2c30;
-  --brand-primary-dark: #b81f24;
+  --background-color: rgb(255, 255, 255);
+  --light-color: #f8f8f8;
+  --dark-color: #2b2f33;
+  --text-color: rgb(68, 77, 85);
+  --link-color: rgb(68, 77, 85);
+  --link-hover-color: rgb(200, 16, 46);
 
   /* fonts */
-  --body-font-family: poppins, roboto-fallback, sans-serif;
-  --heading-font-family: montserrat, roboto-condensed-fallback, sans-serif;
+  --body-font-family: "Open Sans", sans-serif;
+  --heading-font-family: "Open Sans", sans-serif;
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -38,10 +38,15 @@
   --heading-font-size-s: 24px;
   --heading-font-size-xs: 22px;
 
-  /* nav heights */
-  --nav-height: 64px;
-  --breadcrumbs-height: 34px;
-  --header-height: var(--nav-height);
+  /* nav height */
+  --nav-height: 134px;
+}
+
+main .button-container { display: inline; }
+main a.button:any-link {
+  background: none; border: none; border-radius: 0;
+  color: var(--link-color); font-size: inherit; font-weight: inherit;
+  padding: 0; margin: 0; text-decoration: underline; white-space: normal;
 }
 
 /* fallback fonts */
@@ -89,7 +94,7 @@ body.appear {
 }
 
 header {
-  height: var(--header-height);
+  height: var(--nav-height);
 }
 
 header .header,
@@ -100,12 +105,6 @@ footer .footer {
 header .header[data-block-status="loaded"],
 footer .footer[data-block-status="loaded"] {
   visibility: visible;
-}
-
-@media (width >= 900px) {
-  body[data-breadcrumbs] {
-    --header-height: calc(var(--nav-height) + var(--breadcrumbs-height));
-  }
 }
 
 h1,
@@ -122,12 +121,7 @@ h6 {
   scroll-margin: 40px;
 }
 
-h1 {
-  font-size: var(--heading-font-size-xxl);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-}
+h1 { font-size: var(--heading-font-size-xxl); }
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
 h4 { font-size: var(--heading-font-size-m); }
@@ -172,7 +166,7 @@ button {
 a:any-link {
   color: var(--link-color);
   text-decoration: none;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 a:hover {
@@ -181,47 +175,116 @@ a:hover {
 }
 
 /* buttons */
-a.button:any-link,
-button {
-  box-sizing: border-box;
-  display: inline-block;
-  max-width: 100%;
+p.button-wrapper {
   margin: 12px 0;
+}
+
+a.button:any-link,
+button.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  margin: 0;
   border: 2px solid transparent;
   border-radius: 2.4em;
   padding: 0.5em 1.2em;
-  font-family: var(--body-font-family);
-  font-style: normal;
+  font: inherit;
   font-weight: 500;
   line-height: 1.25;
-  text-align: center;
   text-decoration: none;
-  background-color: var(--link-color);
-  color: var(--background-color);
   cursor: pointer;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-a.button:hover,
-a.button:focus,
-button:hover,
-button:focus {
-  background-color: var(--link-hover-color);
-  cursor: pointer;
+a.button[aria-disabled="true"],
+button.button:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
-button:disabled,
-button:disabled:hover {
+a.button.primary,
+button.button.primary {
+  border-color: var(--text-color);
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
+a.button.primary:hover,
+a.button.primary:focus-visible,
+button.button.primary:hover,
+button.button.primary:focus-visible {
+  border-color: var(--dark-color);
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+
+a.button.primary[aria-disabled="true"],
+a.button.primary[aria-disabled="true"]:hover,
+a.button.primary[aria-disabled="true"]:focus-visible,
+button.button.primary:disabled,
+button.button.primary:disabled:hover,
+button.button.primary:disabled:focus-visible {
   background-color: var(--light-color);
-  cursor: unset;
+  border-color: var(--light-color);
+  color: var(--dark-color);
 }
 
 a.button.secondary,
-button.secondary {
-  background-color: unset;
-  border: 2px solid currentcolor;
+button.button.secondary {
+  border-color: var(--text-color);
+  background-color: transparent;
   color: var(--text-color);
+}
+
+a.button.secondary:hover,
+a.button.secondary:focus-visible,
+button.button.secondary:hover,
+button.button.secondary:focus-visible {
+  border-color: var(--dark-color);
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+a.button.secondary[aria-disabled="true"],
+a.button.secondary[aria-disabled="true"]:hover,
+a.button.secondary[aria-disabled="true"]:focus-visible,
+button.button.secondary:disabled,
+button.button.secondary:disabled:hover,
+button.button.secondary:disabled:focus-visible {
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+/* high-impact call-to-action */
+a.button.accent,
+button.button.accent {
+  border-color: var(--link-color);
+  background-color: var(--link-color);
+  color: var(--background-color);
+}
+
+a.button.accent:hover,
+a.button.accent:focus-visible,
+button.button.accent:hover,
+button.button.accent:focus-visible {
+  border-color: var(--link-hover-color);
+  background-color: var(--link-hover-color);
+}
+
+a.button.accent[aria-disabled="true"],
+a.button.accent[aria-disabled="true"]:hover,
+a.button.accent[aria-disabled="true"]:focus-visible,
+button.button.accent:disabled,
+button.button.accent:disabled:hover,
+button.button.accent:disabled:focus-visible {
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+  color: var(--dark-color);
 }
 
 main img {
@@ -268,26 +331,4 @@ main .section.highlight {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
-}
-
-main .section.glow {
-  background:
-    radial-gradient(
-      ellipse 50% 60% at 25% 40%,
-      var(--light-color) 0%,
-      var(--background-color) 70%
-    );
-  margin: 0;
-  padding: 64px 0;
-}
-
-main .section.dark {
-  background-color: var(--dark-color);
-  color: var(--background-color);
-  margin: 0;
-  padding: 40px 0;
-}
-
-main .section.dark a:any-link {
-  color: var(--background-color);
 }

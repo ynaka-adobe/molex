@@ -1,20 +1,14 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
-
-export default function decorate(block) {
-  /* change to ul, li */
-  const ul = document.createElement('ul');
-  [...block.children].forEach((row) => {
-    const li = document.createElement('li');
-    while (row.firstElementChild) li.append(row.firstElementChild);
-    [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
-      else div.className = 'cards-card-body';
-    });
-    ul.append(li);
+export default async function decorate(block) {
+  [...block.children].forEach((card) => {
+    card.classList.add('card');
+    const cell = card.firstElementChild;
+    if (cell) {
+      cell.classList.add('card-body');
+      const paras = cell.querySelectorAll(':scope > p');
+      const label = paras[0];
+      if (label) label.classList.add('card-label');
+      const cta = [...paras].find((p) => p.querySelector('a'));
+      if (cta) cta.classList.add('card-cta');
+    }
   });
-
-  // replace images with optimized versions
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
-
-  block.replaceChildren(ul);
 }

@@ -1,37 +1,106 @@
-.hero-container .hero-wrapper {
-  max-width: unset;
-  padding: 0;
+.hero-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .hero {
+  --hero-bg: #0d1328;
+  --hero-text: #fff;
+  --hero-min-height: 602px;
+  --hero-pad: 100px 24px;
+
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
-}
-
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
-}
-
-.hero picture {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--hero-min-height);
+  padding: var(--hero-pad);
+  background-color: var(--hero-bg);
+  color: var(--hero-text);
   box-sizing: border-box;
+  overflow: hidden;
 }
 
-.hero img {
-  object-fit: cover;
+.hero > div {
+  display: contents;
+}
+
+.hero .hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero .hero-bg picture,
+.hero .hero-bg img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero .hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero .hero-content h2 {
+  margin: 0;
+  max-width: 1240px;
+  color: var(--hero-text);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.hero .hero-content p {
+  margin: 24px 0 0;
+  max-width: 620px;
+  color: var(--hero-text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.hero .hero-content .button-wrapper {
+  margin: 32px 0 0;
+}
+
+main .hero a.button:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #5a7e92;
+  border-radius: 84px;
+  padding: 16px 32px;
+  color: #0d1328;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+main .hero a.button:any-link::after {
+  content: "\2192";
+  font-size: 18px;
+  line-height: 1;
+}
+
+main .hero a.button:any-link:hover {
+  background: #f0f0f0;
+  color: #0d1328;
+  text-decoration: none;
 }
 
 @media (width >= 900px) {
   .hero {
-    padding: 40px 32px;
+    --hero-pad: 100px 32px;
   }
 }

@@ -1,0 +1,12 @@
+:root {
+  --heading-font-family: "Open Sans", sans-serif;
+  --body-font-family: "Open Sans", sans-serif;
+  --background-color: rgb(255, 255, 255);
+  --text-color: rgb(68, 77, 85);
+  --link-color: rgb(68, 77, 85);
+  --link-hover-color: rgb(200, 16, 46);
+  --section-padding: 48px;
+  --nav-height: 134px;
+}
+
+html, body { overflow: auto !important; }
