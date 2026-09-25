@@ -22,8 +22,8 @@
   --link-hover-color: rgb(200, 16, 46);
 
   /* fonts */
-  --body-font-family: "Open Sans", sans-serif;
-  --heading-font-family: "Open Sans", sans-serif;
+  --body-font-family: "Open Sans", open-sans-fallback, sans-serif;
+  --heading-font-family: "Open Sans", open-sans-fallback, sans-serif;
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -59,6 +59,15 @@ main a.button:any-link {
 @font-face {
   font-family: roboto-fallback;
   size-adjust: 99.529%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: open-sans-fallback;
+  size-adjust: 104.7%;
+  ascent-override: 101.6%;
+  descent-override: 27.8%;
+  line-gap-override: 0%;
   src: local('Arial');
 }
 
