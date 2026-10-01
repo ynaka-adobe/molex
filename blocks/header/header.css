@@ -2,15 +2,24 @@
 
 .header.block {
   --header-background: #fff;
-  --header-row1-height: 76px;
+  --header-row1-height: 56px;
+  --header-utility-height: 44px;
   --header-row2-height: 58px;
   --header-row2-background: #e9ecef;
+  --header-tile-background: #eef0f2;
+  --header-tile-hover-background: #e1e5e9;
   --header-text-color: #444d55;
-  --header-side-padding: 40px;
+  --header-strong-color: #242b30;
+  --header-side-padding: 16px;
   --header-nav-font-size: 16px;
   --header-nav-gap: 40px;
-  --header-accent: #e6007e;
-  --brand-logo-width: 300px;
+  --header-divider-color: #ee2c30;
+  --header-search-border: #5a7e92;
+  --header-search-height: 44px;
+  --header-search-max-width: 640px;
+  --header-focus-ring: 2px solid #1473e6;
+  --brand-logo-height: 30px;
+  --brand-tagline-height: 24px;
 }
 
 .header.block .nav-wrapper {
@@ -24,24 +33,23 @@
   box-sizing: border-box;
   display: grid;
   grid-template:
-    'hamburger brand tools' var(--nav-height)
-    'sections sections sections' 1fr / auto 1fr auto;
+    'brand search-toggle hamburger' var(--header-row1-height)
+    'search search search' auto
+    'utility utility utility' var(--header-utility-height)
+    'sections sections sections' auto / 1fr auto auto;
   align-items: center;
-  gap: 0 24px;
+  column-gap: 8px;
   margin: auto;
-  height: var(--nav-height);
+  min-height: var(--nav-height);
   padding: 0 var(--header-side-padding);
   font-family: var(--body-font-family);
   color: var(--header-text-color);
 }
 
 .header.block nav[aria-expanded='true'] {
-  grid-template:
-    'hamburger brand' var(--header-row1-height)
-    'sections sections' 1fr
-    'tools tools' auto / auto 1fr;
   overflow-y: auto;
   min-height: 100dvh;
+  align-content: start;
 }
 
 .header.block nav p {
@@ -54,21 +62,31 @@
   text-decoration: none;
 }
 
+.header.block nav a:focus-visible,
+.header.block nav button:focus-visible,
+.header.block nav input:focus-visible {
+  outline: var(--header-focus-ring);
+  outline-offset: 2px;
+}
+
 /* hamburger (mobile only) */
 .header.block nav .nav-hamburger {
   grid-area: hamburger;
-  height: 22px;
   display: flex;
   align-items: center;
 }
 
 .header.block nav .nav-hamburger button {
-  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   margin: 0;
   border: 0;
-  border-radius: 0;
+  border-radius: 4px;
   padding: 0;
-  background-color: var(--header-background);
+  background-color: var(--header-tile-background);
   color: inherit;
   cursor: pointer;
 }
@@ -126,29 +144,252 @@
   transform: rotate(-45deg);
 }
 
-/* brand */
+.header.block nav .nav-search-toggle img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.75;
+}
+
+/* brand: wordmark + optional tagline */
 .header.block nav .nav-brand {
   grid-area: brand;
   display: flex;
   align-items: center;
+  min-width: 0;
 }
 
-.header.block nav .nav-brand p {
+.header.block nav .nav-brand .default-content-wrapper,
+.header.block nav .nav-brand p,
+.header.block nav .nav-brand a {
   display: flex;
   align-items: center;
+  gap: 28px;
 }
 
-.header.block nav .nav-brand .icon-molex-logo {
+.header.block nav .nav-brand .icon {
+  width: auto;
+  height: auto;
+}
+
+.header.block nav .nav-brand .icon img {
+  display: block;
+  width: auto;
+}
+
+.header.block nav .nav-brand .icon-molex-logo img {
+  height: var(--brand-logo-height);
+}
+
+.header.block nav .nav-brand .icon-molex-tagline {
+  display: none;
+}
+
+.header.block nav .nav-brand .icon-molex-tagline img {
+  height: var(--brand-tagline-height);
+}
+
+/* tools: children are placed directly on the nav grid */
+.header.block nav .nav-tools {
+  display: contents;
+}
+
+/* search */
+.header.block nav .nav-search {
+  grid-area: search;
+  display: none;
+  position: relative;
+  width: 100%;
+  height: var(--header-search-height);
+  margin: 0 0 12px;
+  border: 1px solid var(--header-search-border);
+  border-radius: 0;
+  background: var(--header-background);
+  box-sizing: border-box;
+}
+
+.header.block nav[data-search-open='true'] .nav-search {
+  display: flex;
+}
+
+.header.block nav .nav-search-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.header.block nav .nav-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--header-strong-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: normal;
+  appearance: none;
+}
+
+.header.block nav .nav-search input::placeholder {
+  color: #5c6670;
+  opacity: 1;
+}
+
+.header.block nav .nav-search input:focus-visible {
+  outline-offset: -2px;
+}
+
+.header.block nav .nav-search-submit {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--header-search-height);
+  height: 100%;
+  margin: 0;
+  border: 0;
+  border-left: 1px solid var(--header-search-border);
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.header.block nav .nav-search-submit:hover {
+  background: var(--header-tile-background);
+}
+
+.header.block nav .nav-search-submit .icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.75;
+}
+
+/* mobile icon buttons (search toggle + hamburger) */
+.header.block nav .nav-search-toggle {
+  grid-area: search-toggle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  border: 0;
+  border-radius: 4px;
+  padding: 0;
+  background: var(--header-tile-background);
+  cursor: pointer;
+}
+
+.header.block nav .nav-search-toggle[aria-expanded='true'],
+.header.block nav .nav-search-toggle:hover {
+  background: var(--header-tile-hover-background);
+}
+
+/* utility: account links + language */
+.header.block nav .nav-utility {
+  grid-area: utility;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  align-self: stretch;
+  margin: 0 calc(-1 * var(--header-side-padding));
+  padding: 0 var(--header-side-padding);
+  background: var(--header-tile-background);
+  white-space: nowrap;
+  font-size: 15px;
+}
+
+.header.block nav .nav-account {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header.block nav .nav-account li + li {
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 1px solid var(--header-divider-color);
+}
+
+.header.block nav .nav-account a:any-link {
+  display: inline-block;
+  padding: 4px 0;
+  color: var(--header-strong-color);
+}
+
+.header.block nav .nav-account a:hover,
+.header.block nav .nav-lang a:hover {
+  text-decoration: underline;
+}
+
+.header.block nav .nav-lang {
+  position: relative;
+  order: -1;
+}
+
+.header.block nav .nav-lang > a:any-link,
+.header.block nav .nav-lang > button {
   display: inline-flex;
   align-items: center;
-  width: var(--brand-logo-width);
-  height: auto;
+  gap: 8px;
+  margin: 0;
+  border: 0;
+  border-radius: 2px;
+  padding: 8px 0;
+  background: transparent;
+  color: var(--header-strong-color);
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1;
+  cursor: pointer;
 }
 
-.header.block nav .nav-brand .icon-molex-logo svg,
-.header.block nav .nav-brand .icon-molex-logo img {
-  width: var(--brand-logo-width);
-  height: auto;
+.header.block nav .nav-lang > a::after,
+.header.block nav .nav-lang > button::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin: 0 2px 0 4px;
+  border: solid currentcolor;
+  border-width: 0 1.5px 1.5px 0;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.header.block nav .nav-lang > button[aria-expanded='true']::after {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.header.block nav .nav-lang .icon-globe {
+  width: 18px;
+  height: 18px;
+}
+
+.header.block nav .nav-lang > ul {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 3;
+  min-width: 180px;
+  margin: 4px 0 0;
+  padding: 8px 0;
+  list-style: none;
+  background: var(--header-background);
+  box-shadow: 0 6px 16px rgb(0 0 0 / 15%);
+}
+
+.header.block nav .nav-lang > ul a:any-link {
+  display: block;
+  padding: 8px 16px;
 }
 
 /* sections (main nav) */
@@ -180,137 +421,80 @@
   margin-top: 8px;
 }
 
-.header.block nav .nav-sections ul > li > ul > li {
+.header.block nav .nav-sections .default-content-wrapper ul > li > ul > li {
   font-weight: 400;
   padding: 6px 0;
 }
 
-/* tools */
-.header.block nav .nav-tools {
-  grid-area: tools;
-}
-
-.header.block nav .nav-tools .default-content-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.header.block nav .nav-tools .nav-search {
-  display: flex;
-  align-items: center;
-  border: 1px solid #5a7e92;
-  border-radius: 2px;
-  height: 44px;
-  width: 320px;
-  box-sizing: border-box;
-}
-
-.header.block nav .nav-tools .nav-search input {
-  flex: 1 1 auto;
-  border: 0;
-  outline: 0;
-  height: 100%;
-  padding: 0 12px;
-  font-family: var(--body-font-family);
-  font-size: 15px;
-  background: transparent;
-  min-width: 0;
-}
-
-.header.block nav .nav-tools .nav-search .nav-search-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 100%;
-  flex: 0 0 auto;
-}
-
-.header.block nav .nav-tools .nav-search .icon-search svg,
-.header.block nav .nav-tools .nav-search .icon-search img {
-  width: 18px;
-  height: 18px;
-}
-
-.header.block nav .nav-tools .nav-account {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  white-space: nowrap;
-}
-
-.header.block nav .nav-tools .nav-account a:first-child {
-  border-right: 1px solid var(--header-accent);
-  padding-right: 16px;
-}
-
-.header.block nav .nav-tools .nav-lang a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #e9ecef;
-  padding: 8px 14px;
-  border-radius: 2px;
-  white-space: nowrap;
-}
-
-.header.block nav .nav-tools .nav-lang a::after {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-left: 4px;
-  border: 2px solid currentcolor;
-  border-width: 0 2px 2px 0;
-  transform: translateY(-2px) rotate(45deg);
-}
-
 /* ==== Desktop layout (two-tier) ==== */
 @media (width >= 900px) {
-  .header.block nav .nav-hamburger {
+  .header.block {
+    --header-side-padding: 40px;
+    --header-row1-height: 76px;
+    --brand-logo-height: 24px;
+  }
+
+  .header.block nav .nav-hamburger,
+  .header.block nav .nav-search-toggle {
     display: none;
     visibility: hidden;
   }
 
   .header.block nav,
   .header.block nav[aria-expanded='true'] {
-    display: grid;
     grid-template:
-      'brand tools' var(--header-row1-height)
-      'sections sections' var(--header-row2-height) / auto 1fr;
-    max-width: none;
+      'brand search utility' var(--header-row1-height)
+      'sections sections sections' var(--header-row2-height) / auto minmax(0, 1fr) auto;
+    column-gap: 0;
     width: 100%;
+    height: var(--nav-height);
     min-height: 0;
     overflow: visible;
     padding: 0;
-    gap: 0;
-    height: var(--nav-height);
   }
 
   .header.block nav .nav-brand {
-    align-self: center;
     padding-left: var(--header-side-padding);
   }
 
-  .header.block nav .nav-tools {
-    align-self: center;
+  .header.block nav .nav-brand .icon-molex-tagline {
+    display: inline-block;
   }
 
-  .header.block nav .nav-tools .default-content-wrapper {
-    padding-right: var(--header-side-padding);
-    padding-left: 40px;
-    gap: 24px;
-  }
-
-  .header.block nav .nav-tools .nav-search {
-    flex: 1 1 auto;
+  .header.block nav .nav-search,
+  .header.block nav[data-search-open] .nav-search {
+    display: flex;
+    justify-self: stretch;
     width: auto;
-    max-width: 600px;
+    max-width: var(--header-search-max-width);
+    margin: 0 40px;
   }
 
-  .header.block nav .nav-tools .nav-account {
-    margin-left: auto;
+  .header.block nav .nav-utility {
+    align-self: center;
+    gap: 24px;
+    margin: 0;
+    padding: 0 var(--header-side-padding) 0 0;
+    background: transparent;
+    font-size: 16px;
+  }
+
+  .header.block nav .nav-lang {
+    order: 0;
+  }
+
+  .header.block nav .nav-lang > a:any-link,
+  .header.block nav .nav-lang > button {
+    height: var(--header-search-height);
+    padding: 0 14px;
+    background: var(--header-tile-background);
+    box-sizing: border-box;
+  }
+
+  .header.block nav .nav-lang > a:hover,
+  .header.block nav .nav-lang > button:hover {
+    background: var(--header-tile-hover-background);
+    text-decoration: none;
   }
 
   /* row 2: full-width gray bar, centered nav */
@@ -394,5 +578,12 @@
 
   .header.block nav .nav-sections .default-content-wrapper > ul > li > ul > li {
     padding: 6px 0;
+  }
+}
+
+/* small desktop: give the search room by dropping the tagline */
+@media (width >= 900px) and (width < 1100px) {
+  .header.block nav .nav-brand .icon-molex-tagline {
+    display: none;
   }
 }
