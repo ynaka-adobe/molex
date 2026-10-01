@@ -3,6 +3,7 @@
   min-height: 0;
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- slot class is set by target-offer.js */
 .target-offer__slot:empty {
   min-height: 0;
 }

@@ -166,11 +166,44 @@ function labelIconLinks(main) {
   });
 }
 
+export const NX_ORIGIN = 'https://da.live/nx';
+
+/**
+ * Moves attributes from one element to another.
+ * @param {Element} from The source element
+ * @param {Element} to The target element
+ * @param {string[]} [attributes] Attribute names to move (defaults to all)
+ */
+export function moveAttributes(from, to, attributes) {
+  const names = attributes || [...from.attributes].map(({ nodeName }) => nodeName);
+  names.forEach((attr) => {
+    const value = from.getAttribute(attr);
+    if (value) {
+      to?.setAttribute(attr, value);
+      from.removeAttribute(attr);
+    }
+  });
+}
+
+/**
+ * Moves Universal Editor instrumentation attributes from one element to another.
+ * @param {Element} from The source element
+ * @param {Element} to The target element
+ */
+export function moveInstrumentation(from, to) {
+  moveAttributes(
+    from,
+    to,
+    [...from.attributes]
+      .map(({ nodeName }) => nodeName)
+      .filter((attr) => attr.startsWith('data-aue-') || attr.startsWith('data-richtext-')),
+  );
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
  */
-// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
