@@ -172,39 +172,75 @@ function buildSearch(source) {
 }
 
 /**
- * Builds the language selector. A nested list of languages becomes a disclosure menu,
- * otherwise the authored link is used as-is.
- * @param {Element} source The authored paragraph or list
+ * Builds the language selector. A list of language links (nested under the globe link,
+ * or directly following it) becomes a disclosure menu; otherwise the link is used as-is.
+ * @param {Element} source The authored paragraph or list containing the globe link
+ * @param {Element} [sibling] An optional list authored right after the source
  * @returns {HTMLElement}
  */
-function buildLanguage(source) {
+function buildLanguage(source, sibling) {
   const lang = document.createElement('div');
   lang.className = 'nav-lang';
-  const options = source.querySelector('li > ul');
+  const options = source.querySelector('li > ul') || sibling;
+  const triggerLink = source.querySelector('a');
 
   if (!options) {
-    const link = source.querySelector('a');
-    if (link) lang.append(link);
+    if (triggerLink) lang.append(triggerLink);
     else lang.append(...source.childNodes);
     return lang;
   }
 
+  options.remove();
+  options.id = 'nav-lang-options';
+  options.hidden = true;
+  const links = [...options.querySelectorAll('a')];
+  links.forEach((a) => {
+    // mark the language of each option, e.g. /ja-jp/home -> lang="ja-jp"
+    const code = new URL(a.href, window.location.href).pathname.split('/')[1];
+    if (/^[a-z]{2}(-[a-z]{2})?$/i.test(code)) {
+      a.lang = code;
+      a.hreflang = code;
+    }
+  });
+
   const trigger = document.createElement('button');
   trigger.type = 'button';
   trigger.setAttribute('aria-expanded', 'false');
-  trigger.setAttribute('aria-controls', 'nav-lang-options');
-  const item = options.parentElement;
-  options.remove();
-  const triggerLink = item.querySelector('a');
-  trigger.append(...(triggerLink || item).childNodes);
-  options.id = 'nav-lang-options';
-  options.hidden = true;
+  trigger.setAttribute('aria-controls', options.id);
+  trigger.append(...(triggerLink || source).childNodes);
+  const label = trigger.textContent.trim();
+  if (label) trigger.setAttribute('aria-label', `Language: ${label}`);
 
-  const setOpen = (open) => {
+  const setOpen = (open, focusIndex) => {
     trigger.setAttribute('aria-expanded', open);
     options.hidden = !open;
+    if (open && focusIndex !== undefined) links.at(focusIndex)?.focus();
   };
+  const onOutside = (e) => {
+    if (!lang.contains(e.target)) setOpen(false);
+  };
+  document.addEventListener('pointerdown', onOutside);
+
   trigger.addEventListener('click', () => setOpen(options.hidden));
+  trigger.addEventListener('keydown', (e) => {
+    if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
+      e.preventDefault();
+      setOpen(true, e.code === 'ArrowDown' ? 0 : -1);
+    }
+  });
+  options.addEventListener('keydown', (e) => {
+    const i = links.indexOf(document.activeElement);
+    const keys = {
+      ArrowDown: (i + 1) % links.length,
+      ArrowUp: (i - 1 + links.length) % links.length,
+      Home: 0,
+      End: links.length - 1,
+    };
+    if (e.code in keys) {
+      e.preventDefault();
+      links[keys[e.code]].focus();
+    }
+  });
   lang.addEventListener('keydown', (e) => {
     if (e.code === 'Escape' && !options.hidden) {
       e.stopPropagation();
@@ -213,7 +249,7 @@ function buildLanguage(source) {
     }
   });
   lang.addEventListener('focusout', (e) => {
-    if (!lang.contains(e.relatedTarget)) setOpen(false);
+    if (e.relatedTarget && !lang.contains(e.relatedTarget)) setOpen(false);
   });
   lang.append(trigger, options);
   return lang;
@@ -229,7 +265,9 @@ function decorateTools(nav, navTools) {
   const items = [...navTools.querySelectorAll('.default-content-wrapper > *')];
   const searchSource = items.find((el) => el.querySelector('.icon-search'));
   const langSource = items.find((el) => el.querySelector('.icon-globe'));
-  const accountSource = items.find((el) => el !== searchSource && el !== langSource && el.querySelector('a'));
+  const next = langSource?.nextElementSibling;
+  const langList = langSource?.tagName === 'P' && next?.matches('ul, ol') ? next : undefined;
+  const accountSource = items.find((el) => ![searchSource, langSource, langList].includes(el) && el.querySelector('a'));
 
   const form = searchSource ? buildSearch(searchSource) : null;
 
@@ -245,7 +283,7 @@ function decorateTools(nav, navTools) {
     });
     utility.append(account);
   }
-  if (langSource) utility.append(buildLanguage(langSource));
+  if (langSource) utility.append(buildLanguage(langSource, langList));
 
   navTools.replaceChildren(...[form, utility].filter(Boolean));
 
