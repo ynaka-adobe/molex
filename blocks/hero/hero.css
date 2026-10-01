@@ -9,6 +9,9 @@
   --hero-text: #fff;
   --hero-min-height: 602px;
   --hero-pad: 100px 24px;
+  --hero-overlay: rgb(0 0 0 / 39%);
+  --hero-cta-hover: #e30437;
+  --hero-reveal-duration: 0.2s;
 
   position: relative;
   display: flex;
@@ -40,6 +43,15 @@
   display: block;
 }
 
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--hero-overlay);
+  pointer-events: none;
+}
+
 .hero .hero-content {
   position: relative;
   z-index: 1;
@@ -51,25 +63,41 @@
   margin: 0 auto;
 }
 
-.hero .hero-content h2 {
-  margin: 0;
+.hero .hero-content :is(h1, h2) {
+  margin: 0 0 8px;
   max-width: 1240px;
   color: var(--hero-text);
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.5;
 }
 
-.hero .hero-content p {
-  margin: 24px 0 0;
+/* collapsible description: grid rows animate 0fr <-> 1fr to the exact content height */
+.hero .hero-description {
+  display: grid;
+  grid-template-rows: 1fr;
+  width: 100%;
   max-width: 620px;
+}
+
+.hero .hero-description > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hero .hero-description p {
+  margin: 0;
   color: var(--hero-text);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 24px;
+}
+
+.hero .hero-description p + p {
+  margin-top: 8px;
 }
 
 .hero .hero-content .button-wrapper {
-  margin: 32px 0 0;
+  margin: 16px 0 0;
 }
 
 main .hero a.button:any-link {
@@ -94,7 +122,7 @@ main .hero a.button:any-link::after {
 }
 
 main .hero a.button:any-link:hover {
-  background: #f0f0f0;
+  outline: 1.5px solid var(--hero-cta-hover);
   color: #0d1328;
   text-decoration: none;
 }
@@ -102,5 +130,42 @@ main .hero a.button:any-link:hover {
 @media (width >= 900px) {
   .hero {
     --hero-pad: 100px 32px;
+    --hero-min-height: 698px;
+  }
+
+  .hero .hero-content :is(h1, h2) {
+    font-size: 48px;
+  }
+
+  .hero .hero-description {
+    max-width: clamp(320px, 43vw, 620px);
+  }
+}
+
+/* reveal on hover/focus where a pointer can hover; touch devices always show content */
+@media (hover: hover) {
+  .hero:not(.static)::after {
+    opacity: 0;
+    transition: opacity var(--hero-reveal-duration) ease-out;
+  }
+
+  .hero:not(.static) .hero-description {
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--hero-reveal-duration) ease-in-out;
+  }
+
+  .hero:not(.static):is(:hover, :focus-within)::after {
+    opacity: 1;
+  }
+
+  .hero:not(.static):is(:hover, :focus-within) .hero-description {
+    grid-template-rows: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::after,
+  .hero .hero-description {
+    transition: none !important;
   }
 }
