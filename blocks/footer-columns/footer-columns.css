@@ -33,6 +33,16 @@
   height: auto;
 }
 
+.footer-columns a:any-link {
+  color: var(--fc-link-color);
+  text-decoration: none;
+}
+
+.footer-columns a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
 /* social row */
 .footer-columns p.social {
   display: flex;
@@ -93,16 +103,6 @@
 
 .footer-columns li {
   margin: 0 0 14px;
-}
-
-.footer-columns a:any-link {
-  color: var(--fc-link-color);
-  text-decoration: none;
-}
-
-.footer-columns a:hover {
-  color: #fff;
-  text-decoration: underline;
 }
 
 @media (width >= 900px) {

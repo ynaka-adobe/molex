@@ -1,6 +1,6 @@
 .busbars {
   --busbars-heading-color: #242b30;
-  --busbars-text-color: rgb(68, 77, 85);
+  --busbars-text-color: rgb(68 77 85);
   --busbars-gap: 48px;
   --busbars-cta-border: #5a7e92;
 }

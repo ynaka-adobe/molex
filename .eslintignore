@@ -1,1 +1,7 @@
 helix-importer-ui
+# vendored / third-party code
+deps/
+plugins/
+# serverless actions and authoring tools (not site runtime)
+actions/
+tools/

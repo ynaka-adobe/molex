@@ -14,12 +14,12 @@
 
 :root {
   /* colors */
-  --background-color: rgb(255, 255, 255);
+  --background-color: rgb(255 255 255);
   --light-color: #f8f8f8;
   --dark-color: #2b2f33;
-  --text-color: rgb(68, 77, 85);
-  --link-color: rgb(68, 77, 85);
-  --link-hover-color: rgb(200, 16, 46);
+  --text-color: rgb(68 77 85);
+  --link-color: rgb(68 77 85);
+  --link-hover-color: rgb(200 16 46);
 
   /* fonts */
   --body-font-family: "Open Sans", open-sans-fallback, sans-serif;
@@ -38,15 +38,14 @@
   --heading-font-size-s: 24px;
   --heading-font-size-xs: 22px;
 
-  /* nav height */
-  --nav-height: 134px;
+  /* nav height: mobile = 56px bar + 44px utility row; desktop = 76px bar + 58px menu */
+  --nav-height: 100px;
 }
 
-main .button-container { display: inline; }
-main a.button:any-link {
-  background: none; border: none; border-radius: 0;
-  color: var(--link-color); font-size: inherit; font-weight: inherit;
-  padding: 0; margin: 0; text-decoration: underline; white-space: normal;
+@media (width >= 900px) {
+  :root {
+    --nav-height: 134px;
+  }
 }
 
 /* fallback fonts */
@@ -340,4 +339,13 @@ main .section.highlight {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
+}
+
+/* links authored inside main render as plain text links, not buttons */
+main .button-container { display: inline; }
+
+main a.button:any-link {
+  background: none; border: none; border-radius: 0;
+  color: var(--link-color); font-size: inherit; font-weight: inherit;
+  padding: 0; margin: 0; text-decoration: underline; white-space: normal;
 }
