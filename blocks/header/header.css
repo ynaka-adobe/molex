@@ -19,7 +19,7 @@
   --header-search-max-width: 640px;
   --header-focus-ring: 2px solid #1473e6;
   --brand-logo-height: 30px;
-  --brand-tagline-height: 24px;
+  --brand-logo-width: 320px;
 }
 
 .header.block .nav-wrapper {
@@ -150,7 +150,7 @@
   opacity: 0.75;
 }
 
-/* brand: wordmark + optional tagline */
+/* brand: official logo + tagline artwork (viewBox 882.24 x 65.24, wordmark spans x 0-222.3) */
 .header.block nav .nav-brand {
   grid-area: brand;
   display: flex;
@@ -176,16 +176,17 @@
   width: auto;
 }
 
-.header.block nav .nav-brand .icon-molex-logo img {
+.header.block nav .nav-brand .icon-molex-logo {
+  display: block;
+  overflow: hidden;
+  width: calc(var(--brand-logo-height) * 222.3 / 65.24);
   height: var(--brand-logo-height);
 }
 
-.header.block nav .nav-brand .icon-molex-tagline {
-  display: none;
-}
-
-.header.block nav .nav-brand .icon-molex-tagline img {
-  height: var(--brand-tagline-height);
+.header.block nav .nav-brand .icon-molex-logo img {
+  max-width: none;
+  height: var(--brand-logo-height);
+  aspect-ratio: 882.24 / 65.24;
 }
 
 /* tools: children are placed directly on the nav grid */
@@ -431,7 +432,6 @@
   .header.block {
     --header-side-padding: 40px;
     --header-row1-height: 76px;
-    --brand-logo-height: 24px;
   }
 
   .header.block nav .nav-hamburger,
@@ -457,8 +457,15 @@
     padding-left: var(--header-side-padding);
   }
 
-  .header.block nav .nav-brand .icon-molex-tagline {
-    display: inline-block;
+  .header.block nav .nav-brand .icon-molex-logo {
+    overflow: visible;
+    width: var(--brand-logo-width);
+    height: auto;
+  }
+
+  .header.block nav .nav-brand .icon-molex-logo img {
+    width: 100%;
+    height: auto;
   }
 
   .header.block nav .nav-search,
@@ -581,9 +588,9 @@
   }
 }
 
-/* small desktop: give the search room by dropping the tagline */
+/* small desktop: shrink the logo to give the search room (matches molex.com) */
 @media (width >= 900px) and (width < 1100px) {
-  .header.block nav .nav-brand .icon-molex-tagline {
-    display: none;
+  .header.block {
+    --brand-logo-width: 216px;
   }
 }
